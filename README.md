@@ -1,4 +1,4 @@
-# Floating clock-desktop
+# Floating Clock App
 Sometimes you  need a sleek, large or small clock Always on top floating on your desktop.
 Place it wherever you want and make it as big or small as you desire.
 
