@@ -1,8 +1,14 @@
+# Floating clock-desktop
 Sometimes you  need a sleek, large or small clock Always on top floating on your desktop.
 Place it wherever you want and make it as big or small as you desire.
 
+-> Compatible with **MacOS (Apple Silicon)**. _More platforms coming soon if there is demand_.
 
-Compatible with MacOS (Apple Silicon). More platforms coming soon if there is demand.
+Download here: [clock-deskto.dmg](https://github.com/ctwhome/clock-desktop/raw/main/Download/Apple%20Silicon/clock-desktop_0.0.0_aarch64.dmg)
+
+![image](https://github.com/user-attachments/assets/b8bf47aa-1ada-4532-8810-def5394c8a18)
+
+
 
 
 ### Development
