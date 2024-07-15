@@ -1,19 +1,25 @@
 {
   "productName": "clock-desktop",
   "version": "0.0.0",
-  "identifier": "com.tauri.dev",
+  "identifier": "com.clock-desktop.dev",
   "build": {
     "beforeDevCommand": "bun run dev",
     "devUrl": "http://localhost:1420",
     "beforeBuildCommand": "bun run build",
     "frontendDist": "../build"
   },
+  "plugins": {
+
+  },
   "app": {
     "windows": [
       {
         "title": "clock-desktop",
-        "width": 800,
-        "height": 600
+        "width": 200,
+        "height": 100,
+        "alwaysOnTop": true,
+        "transparent": true,
+        "decorations": true
       }
     ],
     "security": {
@@ -29,6 +35,10 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "macOS": {
+      "frameworks": [],
+      "minimumSystemVersion": "10.11"
+    }
   }
 }
