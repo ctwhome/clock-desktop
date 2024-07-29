@@ -16,9 +16,11 @@ Download here: [clock-desktop.dmg](https://github.com/ctwhome/clock-desktop/raw/
 If for whatever reason is not working, remove the src-tauri/target folder and try again.
 
 ## Buid for MacOS (Apple Silicon)
+
 ```bash
 bunx tauri build --target aarch64-apple-darwin
 ```
+Get the .dmg file in the `./src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/clock-desktop_0.0.0_aarch64.dmg` folder.
 
 
 
