@@ -13,10 +13,13 @@ Download here: [clock-desktop.dmg](https://github.com/ctwhome/clock-desktop/raw/
 
 ### Development
 
+If for whatever reason is not working, remove the src-tauri/target folder and try again.
+
 ## Buid for MacOS (Apple Silicon)
 ```bash
 bunx tauri build --target aarch64-apple-darwin
 ```
+
 
 
 ## Recommended IDE Setup

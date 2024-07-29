@@ -72,6 +72,8 @@
   }
   .window {
     /* fit cover the screen */
+    pointer-events: none;
+    user-select: none;
     background-size: cover;
     background-image: url("https://images.unsplash.com/photo-1720728659925-9ca9a38afb2c?q=80&w=2075&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
     -webkit-app-region: drag; /* Make the entire window area draggable */
@@ -80,12 +82,15 @@
     align-items: center;
     height: 100%;
     width: 100%;
+    border-radius: 6px;
     background-color: #141414;
     display: flex;
     flex-direction: column;
   }
 
   .clock {
+    pointer-events: none;
+    user-select: none;
     /* grow the font with the window */
     font-size: max(60vmin, 60vh);
 
@@ -94,6 +99,8 @@
     user-select: none; /* Make the clock text non-selectable */
   }
   .date {
+    pointer-events: none;
+    user-select: none;
     font-size: max(15vmin, 15vh);
     /* pointer-events: none; Make the clock text non-clickable */
     /* -webkit-app-region: no-drag; Make the clock text non-draggable */

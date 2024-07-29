@@ -12,14 +12,16 @@
 
   },
   "app": {
+    "macOSPrivateApi": true,
     "windows": [
       {
-        "title": "clock-desktop",
+        "title": "",
         "width": 200,
         "height": 100,
         "alwaysOnTop": true,
         "transparent": true,
-        "decorations": true
+        "decorations": true,
+        "titleBarStyle": "Overlay"
       }
     ],
     "security": {
