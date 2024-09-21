@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { onMount } from "$app/environment";
-  import { onDestroy } from "svelte";
+  import { onMount, onDestroy } from "svelte";
 
   let currentDate = new Date();
   let daysInMonth: number[] = [];
