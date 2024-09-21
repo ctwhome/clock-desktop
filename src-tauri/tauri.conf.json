@@ -9,7 +9,12 @@
     "frontendDist": "../build"
   },
   "plugins": {
-
+    "shell": {
+      "open": true
+    },
+    "window": {
+      "startDragging": true
+    }
   },
   "app": {
     "macOSPrivateApi": true,
@@ -19,8 +24,8 @@
         "width": 200,
         "height": 100,
         "alwaysOnTop": true,
-        "transparent": true,
         "decorations": true,
+        "transparent": true,
         "titleBarStyle": "Overlay"
       }
     ],
