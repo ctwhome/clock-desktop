@@ -1,19 +1,17 @@
 <script>
   import { onMount } from "svelte";
-  import { getCurrent, Window } from "@tauri-apps/plugin-window";
 
   let time;
   let date;
 
   function updateTime() {
-    // only hour and minute
     time = new Date().toLocaleTimeString("nl-NL", {
       hour: "numeric",
       minute: "numeric",
     });
   }
+
   function updateDate() {
-    // only hour and minute
     date = new Date().toLocaleDateString("en-US", {
       day: "numeric",
       month: "long",
@@ -21,104 +19,27 @@
     });
   }
 
-  // Function to apply or remove window decorations
-  async function toggleDecorations(enable) {
-    if (enable) {
-      await appWindow.setDecorations(true);
-    } else {
-      await appWindow.setDecorations(false);
-    }
-  }
-
   onMount(() => {
     updateTime();
     updateDate();
-    // Listen for focus and blur events
-    // appWindow.onFocusChanged(({ payload: focused }) =>
-    //   toggleDecorations(focused),
-    // );
-
     const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval); // Clean up on component destroy
+    return () => clearInterval(interval);
   });
 </script>
 
-<div class="window">
-  <div class="clock">
+<div
+  class="relative w-full h-full flex flex-col justify-center items-center bg-black bg-opacity-50 text-white font-sans font-bold select-none overflow-hidden"
+  style="text-shadow: 3px 3px 0.1em rgba(0, 0, 0, 0.22);"
+>
+  <div
+    class="absolute inset-0 bg-cover bg-center opacity-50 z-0"
+    style="background-image: url('https://images.unsplash.com/photo-1720728659925-9ca9a38afb2c?q=80&w=2075&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"
+  ></div>
+
+  <div class="z-10 text-[max(60vmin,60vh)] select-none">
     {time}
   </div>
-  <!-- dsate with format  15 Jul, 2024-->
-  <div class="date">
+  <div class="z-10 text-[max(15vmin,15vh)] select-none -mt-10">
     {date}
   </div>
 </div>
-
-<style>
-  :global(body) {
-    overflow: hidden;
-    user-select: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-
-    font-family: sans-serif;
-    font-weight: bold;
-    text-shadow: 3px 3px 0.1em #00000037;
-
-    /* background: rgba(0, 0, 0, 0.5); */
-    color: white;
-  }
-  .window {
-    /* fit cover the screen */
-    /* pointer-events: none; */
-    /* user-select: none; */
-    background-size: cover;
-    /* background-image: url("https://images.unsplash.com/photo-1720728659925-9ca9a38afb2c?q=80&w=2075&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"); */
-    -webkit-app-region: drag; /* Make the entire window area draggable */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    border-radius: 6px;
-    /* background-color: #141414; */
-    display: flex;
-    flex-direction: column;
-  }
-
-  .window::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("https://images.unsplash.com/photo-1720728659925-9ca9a38afb2c?q=80&w=2075&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
-    background-size: cover;
-    opacity: 0.5; /* Adjust this value to change the opacity of the background image */
-    z-index: 0; /* Ensure it's behind the content */
-  }
-
-  .clock {
-    z-index: 10;
-    /* pointer-events: none; */
-    user-select: none;
-    /* grow the font with the window */
-    font-size: max(60vmin, 60vh);
-
-    /* pointer-events: none; Make the clock text non-clickable */
-    /* -webkit-app-region: no-drag; Make the clock text non-draggable */
-    user-select: none; /* Make the clock text non-selectable */
-  }
-  .date {
-    /* pointer-events: none; */
-    z-index: 10;
-    user-select: none;
-    font-size: max(15vmin, 15vh);
-    /* pointer-events: none; Make the clock text non-clickable */
-    /* -webkit-app-region: no-drag; Make the clock text non-draggable */
-    user-select: none; /* Make the clock text non-selectable */
-  }
-</style>
