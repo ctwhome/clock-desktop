@@ -88,7 +88,21 @@
     flex-direction: column;
   }
 
+  .window::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("https://images.unsplash.com/photo-1720728659925-9ca9a38afb2c?q=80&w=2075&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    background-size: cover;
+    opacity: 0.5; /* Adjust this value to change the opacity of the background image */
+    z-index: 0; /* Ensure it's behind the content */
+  }
+
   .clock {
+    z-index: 10;
     /* pointer-events: none; */
     user-select: none;
     /* grow the font with the window */
@@ -100,6 +114,7 @@
   }
   .date {
     /* pointer-events: none; */
+    z-index: 10;
     user-select: none;
     font-size: max(15vmin, 15vh);
     /* pointer-events: none; Make the clock text non-clickable */
