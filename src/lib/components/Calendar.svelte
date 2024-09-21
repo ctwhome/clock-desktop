@@ -1,11 +1,14 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount } from "$app/environment";
+  import { onDestroy } from "svelte";
 
   let currentDate = new Date();
   let daysInMonth: number[] = [];
   let monthName: string = "";
   let currentYear: number = 0;
   let firstDayOffset: number = 0;
+  let lastKnownDate = new Date();
+  let intervalId: number;
 
   function getDaysInMonth(year: number, month: number): number {
     return new Date(year, month + 1, 0).getDate();
@@ -59,8 +62,26 @@
     return date.getDay() === 0 || date.getDay() === 6;
   }
 
+  function checkDateChange(): void {
+    const now = new Date();
+    if (
+      now.getDate() !== lastKnownDate.getDate() ||
+      now.getMonth() !== lastKnownDate.getMonth() ||
+      now.getFullYear() !== lastKnownDate.getFullYear()
+    ) {
+      currentDate = now;
+      lastKnownDate = now;
+      updateCalendar();
+    }
+  }
+
   onMount(() => {
     updateCalendar();
+    intervalId = setInterval(checkDateChange, 60000); // Check every minute
+  });
+
+  onDestroy(() => {
+    clearInterval(intervalId);
   });
 </script>
 
@@ -104,7 +125,7 @@
           day,
         )
           ? 'weekend'
-          : ''} {day === currentDate.getDate() &&
+          : ''} {day === new Date().getDate() &&
         currentDate.getMonth() === new Date().getMonth() &&
         currentDate.getFullYear() === new Date().getFullYear()
           ? 'bg-white text-black rounded-full'
