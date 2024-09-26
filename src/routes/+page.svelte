@@ -56,9 +56,10 @@
     <Clock />
   </div>
   <button
-    class="fixed top-1 right-1 bg-white bg-opacity-10 text-white p-1.5 rounded-full transition-all duration-300 ease-in-out hover:bg-opacity-20
-    hover:scale-110 active:bg-opacity-30 active:scale-90 focus:outline-none"
+    class="fixed top-2 right-2 bg-white bg-opacity-10 text-white p-1.5 rounded-full transition-all duration-300 ease-in-out hover:bg-opacity-20
+    hover:scale-110 active:bg-opacity-30 active:scale-90 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
     on:click={openSettings}
+    aria-label="Open Settings"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"

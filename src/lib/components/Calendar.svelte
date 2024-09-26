@@ -84,9 +84,11 @@
   });
 </script>
 
-<div class="calendar text-white text-xs bg-black bg-opacity-50 p-2 rounded">
+<div
+  class="calendar text-white bg-black bg-opacity-50 p-2 rounded flex flex-col text-xs h-full"
+>
   <div
-    class="month-year mb-1 text-center font-bold flex justify-between items-center"
+    class="month-year mb-1 text-center font-bold flex justify-between items-center text-sm sm:text-base"
   >
     <button
       on:click={previousMonth}
@@ -103,28 +105,27 @@
       class="text-white hover:text-gray-300 pointer-events-auto">&gt;</button
     >
   </div>
-  <div class="grid grid-cols-7 gap-1">
+  <div class="grid grid-cols-7 gap-1 flex-grow">
     {#each ["M", "T", "W", "T", "F", "S", "S"] as day, index}
       <div
-        class="day-header w-6 h-6 flex items-center justify-center {index > 4
-          ? 'weekend'
+        class="day-header flex items-center justify-center text-xs sm:text-sm {index >
+        4
+          ? 'opacity-60'
           : ''}"
       >
         {day}
       </div>
     {/each}
     {#each Array(firstDayOffset) as _}
-      <div class="w-6 h-6"></div>
+      <div class="aspect-square"></div>
     {/each}
     {#each daysInMonth as day}
       <div
-        class="day w-6 h-6 flex items-center justify-center {isWeekend(
-          currentYear,
-          currentDate.getMonth(),
-          day,
-        )
-          ? 'weekend'
-          : ''} {day === new Date().getDate() &&
+        class="day aspect-square flex items-center justify-center text-xs sm:text-sm
+        {isWeekend(currentYear, currentDate.getMonth(), day)
+          ? 'opacity-60'
+          : ''}
+        {day === new Date().getDate() &&
         currentDate.getMonth() === new Date().getMonth() &&
         currentDate.getFullYear() === new Date().getFullYear()
           ? 'bg-white text-black rounded-full'
@@ -135,9 +136,3 @@
     {/each}
   </div>
 </div>
-
-<style>
-  .weekend {
-    opacity: 0.6;
-  }
-</style>

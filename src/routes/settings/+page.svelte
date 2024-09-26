@@ -113,74 +113,37 @@
   }
 </script>
 
-<div class="settings-container">
-  <h1>Clock Settings</h1>
+<div class="p-5 font-sans text-gray-800 max-w-[300px] mx-auto">
+  <h1 class="text-2xl mb-5">Clock Settings</h1>
 
-  <div class="setting">
-    <label>
+  <div class="mb-4">
+    <label class="flex items-center cursor-pointer">
       <input
         type="checkbox"
         bind:checked={use24HourFormat}
         on:change={updateSettings}
+        class="mr-2.5"
       />
       Use 24-hour format
     </label>
   </div>
 
-  <div class="setting">
-    <label>
+  <div class="mb-4">
+    <label class="flex items-center cursor-pointer">
       <input
         type="checkbox"
         bind:checked={showSeconds}
         on:change={updateSettings}
+        class="mr-2.5"
       />
       Show seconds
     </label>
   </div>
 
-  <button on:click={closeSettings}>Close Settings</button>
+  <button
+    on:click={closeSettings}
+    class="mt-5 py-2.5 px-4 bg-blue-500 text-white border-none rounded cursor-pointer transition duration-300 ease-in-out hover:bg-blue-700"
+  >
+    Close Settings
+  </button>
 </div>
-
-<style>
-  .settings-container {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    color: #333;
-    max-width: 300px;
-    margin: 0 auto;
-  }
-
-  h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-
-  .setting {
-    margin-bottom: 15px;
-  }
-
-  label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-  }
-
-  input[type="checkbox"] {
-    margin-right: 10px;
-  }
-
-  button {
-    margin-top: 20px;
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-
-  button:hover {
-    background-color: #0056b3;
-  }
-</style>
