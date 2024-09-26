@@ -68,19 +68,12 @@
 </script>
 
 <div
-  class="relative w-full h-full flex flex-col justify-center items-center bg-black bg-opacity-50 text-white font-sans font-bold select-none overflow-hidden"
+  class="relative w-full h-full flex flex-col justify-center items-center text-white font-sans font-bold select-none"
   style="text-shadow: 3px 3px 0.1em rgba(0, 0, 0, 0.22);"
 >
-  <div
-    class="absolute inset-0 bg-cover bg-center opacity-50 z-0"
-    style="background-image: url('https://images.unsplash.com/photo-1720728659925-9ca9a38afb2c?q=80&w=2075&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"
-  ></div>
-
-  <div class="flex items-center z-10">
+  <div class="flex items-center justify-center z-10 gap-5">
     <!-- CALENDAR -->
-    <div class="mr-8">
-      <Calendar />
-    </div>
+    <Calendar />
 
     <!-- TIME AND TIMER -->
     <div class="flex flex-col items-center">
@@ -92,7 +85,7 @@
         {date}
       </div>
 
-      <div class="flex flex-col gap-2 z-10 mt-10">
+      <div class="flex flex-col gap-2 z-10 mt-5">
         <!-- <Timer
           id={1}
           bind:duration={timer1.duration}
