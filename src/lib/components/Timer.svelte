@@ -16,7 +16,8 @@
     reset: { id: number };
   }>();
 
-  let interval: number | null = null;
+  let animationFrameId: number | null = null;
+  let lastTimestamp: number | null = null;
 
   onMount(async () => {
     let permissionGranted = await isPermissionGranted();
@@ -24,11 +25,14 @@
       const permission = await requestPermission();
       permissionGranted = permission === "granted";
     }
+    remaining = duration * 60; // Initialize remaining time
   });
 
   function toggleTimer(): void {
     if (!active) {
-      remaining = duration * 60; // Convert minutes to seconds
+      if (remaining === 0) {
+        remaining = duration * 60; // Reset only if timer has finished
+      }
       startTimer();
     } else {
       stopTimer();
@@ -44,31 +48,51 @@
     dispatch("reset", { id });
   }
 
-  async function startTimer(): Promise<void> {
+  function startTimer(): void {
     editingTimer = false;
-    stopTimer(); // Ensure any existing interval is cleared before starting a new one
-    interval = setInterval(async () => {
+    stopTimer(); // Ensure any existing animation frame is cancelled before starting a new one
+    lastTimestamp = performance.now();
+    tick(lastTimestamp);
+  }
+
+  function tick(timestamp: number): void {
+    if (!active) return;
+
+    if (lastTimestamp === null) {
+      lastTimestamp = timestamp;
+    }
+
+    const elapsed = timestamp - lastTimestamp;
+
+    if (elapsed >= 1000) {
       if (remaining > 0) {
         remaining--;
+        lastTimestamp = timestamp;
       } else {
         stopTimer();
-        try {
-          await sendNotification({
+        // Wrap sendNotification in a Promise
+        new Promise<void>((resolve) => {
+          sendNotification({
             title: "Timer Finished",
             body: `Timer ${id} has finished!`,
           });
-        } catch (error) {
+          resolve();
+        }).catch((error: unknown) => {
           console.error("Failed to send notification:", error);
-        }
+        });
+        return;
       }
-    }, 1000) as unknown as number;
+    }
+
+    animationFrameId = requestAnimationFrame(tick);
   }
 
   function stopTimer(): void {
-    if (interval !== null) {
-      clearInterval(interval);
-      interval = null;
+    if (animationFrameId !== null) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
     }
+    lastTimestamp = null;
   }
 
   function handleKeydown(event: KeyboardEvent): void {
@@ -157,7 +181,7 @@
     </button>
     <button
       on:click={resetTimer}
-      class="  hover:bg-red-700 text-white font-bold p-2 rounded"
+      class="hover:bg-red-700 text-white font-bold p-2 rounded"
       aria-label="Reset"
     >
       <svg
