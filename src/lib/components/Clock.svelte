@@ -34,8 +34,10 @@
 
 <div
   class="relative w-full h-full flex flex-col justify-center items-center text-white font-sans font-bold select-none"
+  class="relative w-full h-full flex flex-col justify-center items-center text-white font-sans font-bold select-none"
   style="text-shadow: 3px 3px 0.1em rgba(0, 0, 0, 0.22);"
 >
+  <div class="flex items-center justify-center z-10 gap-5">
   <div class="flex items-center justify-center z-10 gap-5">
     <!-- CALENDAR -->
     <div class="mt-4">
