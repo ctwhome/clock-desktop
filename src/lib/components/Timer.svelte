@@ -133,7 +133,6 @@
     <button
       on:click={() => {
         editingTimer = true;
-        toggleTimer();
       }}
       class="text-2xl mb-2"
       class:hidden={editingTimer}
