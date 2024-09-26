@@ -7,8 +7,8 @@
   } from "@tauri-apps/plugin-notification";
 
   export let id: number;
-  export let duration = 30;
-  export let remaining = 0;
+  export let duration = 30; // Default duration is now explicitly set to 30 minutes
+  export let remaining = 30;
   export let active = false;
 
   const dispatch = createEventDispatcher<{
