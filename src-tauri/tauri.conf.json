@@ -9,16 +9,15 @@
     "frontendDist": "../build"
   },
 
-
   "plugins": {
     "shell": {
       "open": true
     },
     "window": {
       "startDragging": true,
-          "create": true
-      }
-    },
+      "create": true
+    }
+  },
 
   "app": {
     "macOSPrivateApi": true,
@@ -32,7 +31,8 @@
         "decorations": true,
         "transparent": true,
         "titleBarStyle": "Overlay",
-        "visible": true
+        "visible": true,
+        "visibleOnAllWorkspaces": true
       }
     ],
     "security": {
