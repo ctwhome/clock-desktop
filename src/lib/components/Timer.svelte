@@ -106,9 +106,15 @@
   function handleKeydown(event: KeyboardEvent): void {
     if (event.key === "Enter") {
       event.preventDefault();
-      if (!active) {
-        toggleTimer();
+      // Stop any existing timer
+      if (active) {
+        stopTimer();
+        active = false;
       }
+      // Update remaining time and start the timer
+      remaining = duration * 60;
+      editingTimer = false;
+      toggleTimer();
     }
   }
 
