@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount } from "svelte";
+  import { onMount } from "svelte";
   import {
     isPermissionGranted,
     requestPermission,
@@ -7,14 +7,9 @@
   } from "@tauri-apps/plugin-notification";
 
   export let id: number;
-  export let duration = 30; // Default duration is now explicitly set to 30 minutes
-  export let remaining = 30;
-  export let active = false;
-
-  const dispatch = createEventDispatcher<{
-    toggle: { id: number; active: boolean };
-    reset: { id: number };
-  }>();
+  let duration = 30; // Default duration in minutes
+  let remaining = duration * 60; // Initialize in seconds
+  let active = false;
 
   let animationFrameId: number | null = null;
   let lastTimestamp: number | null = null;
@@ -25,52 +20,64 @@
       const permission = await requestPermission();
       permissionGranted = permission === "granted";
     }
-    remaining = duration * 60; // Initialize remaining time
   });
 
   function toggleTimer(): void {
     if (!active) {
-      if (remaining === 0) {
-        remaining = duration * 60; // Reset only if timer has finished
-      }
+      // Update remaining time to current duration when starting
+      remaining = duration * 60;
+      active = true;
       startTimer();
     } else {
+      active = false;
       stopTimer();
     }
-    active = !active;
-    dispatch("toggle", { id, active });
   }
 
   function resetTimer(): void {
     stopTimer();
     active = false;
-    remaining = duration * 60; // Convert minutes to seconds
-    dispatch("reset", { id });
+    remaining = duration * 60;
   }
 
   function startTimer(): void {
     editingTimer = false;
-    stopTimer(); // Ensure any existing animation frame is cancelled before starting a new one
+    startSound();
     lastTimestamp = performance.now();
-    tick(lastTimestamp);
+    tick();
   }
 
-  function tick(timestamp: number): void {
+  async function startSound() {
+    const audio = new Audio("/sounds/ticking.mp3");
+    audio.play();
+  }
+
+  async function finishSound() {
+    const audio = new Audio("/sounds/notification.mp3");
+    audio.play();
+  }
+
+  function tick(): void {
     if (!active) return;
 
+    const currentTime = performance.now();
+
     if (lastTimestamp === null) {
-      lastTimestamp = timestamp;
+      lastTimestamp = currentTime;
     }
 
-    const elapsed = timestamp - lastTimestamp;
+    const elapsed = currentTime - lastTimestamp;
 
     if (elapsed >= 1000) {
       if (remaining > 0) {
-        remaining--;
-        lastTimestamp = timestamp;
+        remaining -= 1;
+        lastTimestamp = currentTime;
       } else {
         stopTimer();
-        // Wrap sendNotification in a Promise
+        active = false;
+        finishSound();
+
+        // Send notification when timer finishes
         new Promise<void>((resolve) => {
           sendNotification({
             title: "Timer Finished",
@@ -80,6 +87,7 @@
         }).catch((error: unknown) => {
           console.error("Failed to send notification:", error);
         });
+
         return;
       }
     }
@@ -110,13 +118,24 @@
     const seconds = totalSeconds % 60;
 
     if (hours > 0) {
-      return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+      return `${hours.toString().padStart(2, "0")}:${minutes
+        .toString()
+        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
     } else {
-      return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+      return `${minutes.toString().padStart(2, "0")}:${seconds
+        .toString()
+        .padStart(2, "0")}`;
     }
   }
 
   let editingTimer = false;
+
+  // Update remaining time when duration changes and timer is not active
+  function handleDurationChange() {
+    if (!active) {
+      remaining = duration * 60;
+    }
+  }
 </script>
 
 <div class="flex items-center pointer-events-auto">
@@ -129,6 +148,7 @@
       placeholder="Timer {id} (minutes)"
       class:hidden={!editingTimer}
       on:keydown={handleKeydown}
+      on:input={handleDurationChange}
     />
     <button
       on:click={() => {

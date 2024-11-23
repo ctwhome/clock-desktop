@@ -14,6 +14,11 @@ Download here: [clock-desktop.dmg](https://github.com/ctwhome/clock-desktop/raw/
 ### Development
 
 If for whatever reason is not working, remove the src-tauri/target folder and try again.
+```bash
+# Run locally
+bun tauri dev
+```
+
 
 ## Buid for MacOS (Apple Silicon)
 

@@ -1,0 +1,22 @@
+$ tauri dev
+    Running BeforeDevCommand (`bun run dev`)
+$ vite dev
+
+  VITE v5.4.7  ready in 525 ms
+
+  ➜  Local:   http://localhost:1420/
+  ➜  Network: use --host to expose
+    Info Watching /Users/ctw/Sites/github/clock-desktop/src-tauri for changes...
+[1m[33mwarning[0m[1m:[0m clock-desktop@0.0.0: cargo:rustc-check-cfg requires -Zcheck-cfg flag
+[1m[33mwarning[0m[1m:[0m clock-desktop@0.0.0: cargo:rustc-check-cfg requires -Zcheck-cfg flag
+[1m[33mwarning[0m[1m:[0m clock-desktop@0.0.0: cargo:rustc-check-cfg requires -Zcheck-cfg flag
+[1m[32m    Finished[0m dev [unoptimized + debuginfo] target(s) in 0.42s
+9:30:49 PM [vite] hmr update /src/lib/components/Timer.svelte, /src/app.css
+9:31:28 PM [vite] hmr update /src/lib/components/Timer.svelte, /src/app.css
+9:38:07 PM [vite] hmr update /src/lib/components/Timer.svelte, /src/app.css
+9:38:24 PM [vite] page reload .svelte-kit/generated/client/nodes/0.js
+9:38:24 PM [vite] page reload .svelte-kit/generated/client/nodes/1.js
+9:38:24 PM [vite] page reload .svelte-kit/generated/client/nodes/2.js
+9:38:24 PM [vite] page reload .svelte-kit/generated/client/app.js
+9:38:24 PM [vite] page reload .svelte-kit/generated/client/matchers.js
+9:38:24 PM [vite] page reload .svelte-kit/generated/server/internal.js
