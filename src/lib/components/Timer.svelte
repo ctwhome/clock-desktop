@@ -10,6 +10,7 @@
   let duration = 30; // Default duration in minutes
   let remaining = duration * 60; // Initialize in seconds
   let active = false;
+  let isFlashing = false;
 
   let animationFrameId: number | null = null;
   let lastTimestamp: number | null = null;
@@ -57,6 +58,14 @@
     audio.play();
   }
 
+  function triggerFlash() {
+    isFlashing = true;
+    // Reset flash after animation completes
+    setTimeout(() => {
+      isFlashing = false;
+    }, 1500); // 1.5s matches the total animation duration
+  }
+
   function tick(): void {
     if (!active) return;
 
@@ -76,6 +85,7 @@
         stopTimer();
         active = false;
         finishSound();
+        triggerFlash();
 
         // Send notification when timer finishes
         new Promise<void>((resolve) => {
@@ -143,6 +153,10 @@
     }
   }
 </script>
+
+{#if isFlashing}
+  <div class="flash-overlay" />
+{/if}
 
 <div class="flex items-center pointer-events-auto">
   <div class="w-20">
@@ -226,3 +240,32 @@
     </button>
   </div>
 </div>
+
+<style>
+  @keyframes flash {
+    0%,
+    100% {
+      background-color: transparent;
+    }
+    25% {
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+    50% {
+      background-color: transparent;
+    }
+    75% {
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+  }
+
+  .flash-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 9999;
+    animation: flash 1.5s ease-in-out;
+  }
+</style>
