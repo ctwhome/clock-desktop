@@ -1,7 +1,7 @@
 {
   "productName": "clock-desktop",
   "version": "1.0.0",
-  "identifier": "com.clock-desktop.dev",
+  "identifier": "com.clock-desktop.app",
   "build": {
     "beforeDevCommand": "bun run dev",
     "devUrl": "http://localhost:1420",
@@ -51,7 +51,13 @@
     ],
     "macOS": {
       "frameworks": [],
-      "minimumSystemVersion": "10.11"
+      "minimumSystemVersion": "10.13",
+      "license": "../LICENSE",
+      "providerShortName": "${APPLE_TEAM_ID}",
+      "entitlements": "entitlements.plist",
+      "signingIdentity": "${APPLE_SIGNING_IDENTITY}",
+      "hardenedRuntime": true,
+      "category": "public.app-category.utilities"
     }
   }
 }
