@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
   import {
     isPermissionGranted,
     requestPermission,
@@ -14,6 +14,7 @@
 
   let animationFrameId: number | null = null;
   let lastTimestamp: number | null = null;
+  let inputElement: HTMLInputElement;
 
   onMount(async () => {
     let permissionGranted = await isPermissionGranted();
@@ -45,7 +46,7 @@
     editingTimer = false;
     startSound();
     lastTimestamp = performance.now();
-    tick();
+    updateTimer();
   }
 
   async function startSound() {
@@ -66,7 +67,7 @@
     }, 1500); // 1.5s matches the total animation duration
   }
 
-  function tick(): void {
+  function updateTimer(): void {
     if (!active) return;
 
     const currentTime = performance.now();
@@ -102,7 +103,7 @@
       }
     }
 
-    animationFrameId = requestAnimationFrame(tick);
+    animationFrameId = requestAnimationFrame(updateTimer);
   }
 
   function stopTimer(): void {
@@ -125,6 +126,8 @@
       remaining = duration * 60;
       editingTimer = false;
       toggleTimer();
+    } else if (event.key === "Escape") {
+      editingTimer = false;
     }
   }
 
@@ -152,6 +155,26 @@
       remaining = duration * 60;
     }
   }
+
+  // Handle clicking outside
+  function handleInputBlur(event: FocusEvent) {
+    // Use setTimeout to ensure click events are processed first
+    setTimeout(() => {
+      if (!active) {
+        editingTimer = false;
+      }
+    }, 0);
+  }
+
+  // Handle showing the input and selecting text
+  async function showInput() {
+    editingTimer = true;
+    await tick(); // Wait for DOM update
+    if (inputElement) {
+      inputElement.focus();
+      inputElement.select();
+    }
+  }
 </script>
 
 {#if isFlashing}
@@ -161,6 +184,7 @@
 <div class="flex items-center pointer-events-auto">
   <div class="w-20">
     <input
+      bind:this={inputElement}
       type="number"
       bind:value={duration}
       min="0"
@@ -169,11 +193,10 @@
       class:hidden={!editingTimer}
       on:keydown={handleKeydown}
       on:input={handleDurationChange}
+      on:blur={handleInputBlur}
     />
     <button
-      on:click={() => {
-        editingTimer = true;
-      }}
+      on:click={showInput}
       class="text-2xl mb-2"
       class:hidden={editingTimer}
     >
