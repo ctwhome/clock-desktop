@@ -47,7 +47,7 @@
       <div class="text-[max(20vmin,35vh)] select-none">
         {time}
       </div>
-      <div class="text-[max(7vmin,7vh)] select-none -mt-5">
+      <div class="text-[max(7vmin,7vh)] select-none -mt-3">
         {date}
       </div>
 
