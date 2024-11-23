@@ -122,13 +122,11 @@
     {#each daysInMonth as day}
       <div
         class="day aspect-square flex items-center justify-center text-xs sm:text-sm
-        {isWeekend(currentYear, currentDate.getMonth(), day)
-          ? 'opacity-60'
-          : ''}
+        {isWeekend(currentYear, currentDate.getMonth(), day) ? '' : ''}
         {day === new Date().getDate() &&
         currentDate.getMonth() === new Date().getMonth() &&
         currentDate.getFullYear() === new Date().getFullYear()
-          ? 'bg-white text-black rounded-full'
+          ? 'bg-yellow-600 rounded '
           : ''}"
       >
         {day}
