@@ -1,15 +1,7 @@
 <script lang="ts">
   import "../app.css";
   import Clock from "$lib/components/Clock.svelte";
-  import Settings from "$lib/components/Settings.svelte";
-  import { onMount } from "svelte";
-  import { Window } from "@tauri-apps/api/window";
-
-  let appWindow: any;
-
-  onMount(async () => {
-    appWindow = new Window("main");
-  });
+  // import Settings from "$lib/components/Settings.svelte";
 
   function playTestSound() {
     const audio = new Audio("/sounds/notification.mp3");
@@ -47,6 +39,6 @@
         />
       </svg>
     </button> -->
-    <Settings />
+    <!-- <Settings /> -->
   </div>
 </div>

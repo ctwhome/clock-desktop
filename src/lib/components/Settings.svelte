@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { Window } from "@tauri-apps/api/window";
-  import { Webview } from "@tauri-apps/api/webview";
+  // import { Window } from "@tauri-apps/api/window";
+  // import { Webview } from "@tauri-apps/api/webview";
 
-  async function openSettings() {
+  /*   async function openSettings() {
     try {
       // Create a new window with a unique label
       const appWindow = new Window("settings");
@@ -39,15 +39,15 @@
     } catch (error) {
       console.error("Failed to open settings window:", error);
     }
-  }
+  } */
 </script>
 
 <button
   class="bg-white bg-opacity-10 text-white p-1.5 rounded-full transition-all duration-300 ease-in-out hover:bg-opacity-20
   hover:scale-110 active:bg-opacity-30 active:scale-90 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
-  on:click={openSettings}
   aria-label="Open Settings"
 >
+  <!-- on:click={openSettings} -->
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="18"
