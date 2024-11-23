@@ -15,6 +15,21 @@
   let animationFrameId: number | null = null;
   let lastTimestamp: number | null = null;
   let inputElement: HTMLInputElement;
+  let presetMenuElement: HTMLDivElement;
+
+  // Preset timer values in minutes
+  const presetTimers = [
+    { label: "5m", value: 5 },
+    { label: "10m", value: 10 },
+    { label: "15m", value: 15 },
+    { label: "20m", value: 20 },
+    { label: "25m", value: 25 },
+    { label: "30m", value: 30 },
+    { label: "45m", value: 45 },
+    { label: "55m", value: 55 },
+    { label: "60m", value: 60 },
+    { label: "1h20m", value: 80 },
+  ];
 
   onMount(async () => {
     let permissionGranted = await isPermissionGranted();
@@ -157,14 +172,7 @@
   }
 
   // Handle clicking outside
-  function handleInputBlur(event: FocusEvent) {
-    // Use setTimeout to ensure click events are processed first
-    setTimeout(() => {
-      if (!active) {
-        editingTimer = false;
-      }
-    }, 0);
-  }
+  // TODO: This does not work
 
   // Handle showing the input and selecting text
   async function showInput() {
@@ -175,14 +183,49 @@
       inputElement.select();
     }
   }
+
+  // Handle preset timer selection
+  function selectPreset(value: number) {
+    duration = value;
+    remaining = duration * 60;
+    editingTimer = false;
+    toggleTimer();
+  }
+
+  // Prevent menu from closing when clicking inside it
+  function handleMenuClick(event: MouseEvent) {
+    event.stopPropagation();
+  }
 </script>
 
 {#if isFlashing}
   <div class="flash-overlay" />
 {/if}
 
-<div class="flex items-center pointer-events-auto">
+<div class="flex items-center pointer-events-auto relative">
   <div class="w-20">
+    {#if editingTimer}
+      <!-- {#if true} -->
+      <div
+        class="absolute bottom-full left-2/2 z-50 mb-2 transform -translate-x-1/2"
+      >
+        <div
+          bind:this={presetMenuElement}
+          on:mousedown={handleMenuClick}
+          class="preset-menu bg-black/20 rounded-lg shadow-xl border border-base-content/10 p-2 flex flex-wrap gap-2 justify-center w-[350px]"
+        >
+          {#each presetTimers as preset}
+            <button
+              class="px-3 py-1.5 hover:bg-base-100 transition-colors duration-200 rounded-lg text-base-content/80 hover:text-base-content text-sm"
+              on:click={() => selectPreset(preset.value)}
+            >
+              {preset.label}
+            </button>
+          {/each}
+        </div>
+      </div>
+    {/if}
+
     <input
       bind:this={inputElement}
       type="number"
@@ -193,8 +236,8 @@
       class:hidden={!editingTimer}
       on:keydown={handleKeydown}
       on:input={handleDurationChange}
-      on:blur={handleInputBlur}
     />
+    <!-- on:blur={handleInputBlur} -->
     <button
       on:click={showInput}
       class="text-2xl mb-2"
@@ -290,5 +333,52 @@
     pointer-events: none;
     z-index: 9999;
     animation: flash 1.5s ease-in-out;
+  }
+
+  .preset-menu {
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.2s ease-out;
+    max-width: max-content;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .preset-menu button {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .preset-menu button:hover::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    animation: shimmer 1s ease-out;
+  }
+
+  @keyframes shimmer {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(100%);
+    }
   }
 </style>
