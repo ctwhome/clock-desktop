@@ -38,7 +38,9 @@
 >
   <div class="flex items-center justify-center z-10 gap-5">
     <!-- CALENDAR -->
-    <Calendar />
+    <div class="mt-4">
+      <Calendar />
+    </div>
 
     <!-- TIME AND TIMER -->
     <div class="flex flex-col items-center">

@@ -202,8 +202,8 @@
   <div class="flash-overlay" />
 {/if}
 
-<div class="flex items-center pointer-events-auto relative">
-  <div class="w-20">
+<div class="flex items-center pointer-events-auto relative gap-3">
+  <div class="">
     {#if editingTimer}
       <!-- {#if true} -->
       <div
@@ -213,6 +213,7 @@
           bind:this={presetMenuElement}
           on:mousedown={handleMenuClick}
           class="preset-menu bg-black/20 rounded-lg shadow-xl border border-base-content/10 p-2 flex flex-wrap gap-2 justify-center w-[350px]"
+          role="menu"
         >
           {#each presetTimers as preset}
             <button
