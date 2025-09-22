@@ -6,6 +6,12 @@
   let time: string;
   let date: string;
 
+  // Timer component bindings
+  let timerComponent: Timer;
+  let timerActive = false;
+  let timerRemaining = 0;
+  let timerFormatTime: (seconds: number) => string;
+
   function updateTime(): void {
     time = new Date().toLocaleTimeString("nl-NL", {
       hour: "numeric",
@@ -44,15 +50,30 @@
 
     <!-- TIME AND TIMER -->
     <div class="flex flex-col items-center">
+      <!-- Large display: Timer countdown when active, current time when inactive -->
       <div class="text-[max(20vmin,35vh)] select-none">
-        {time}
+        {#if timerActive && timerFormatTime}
+          {timerFormatTime(timerRemaining)}
+        {:else}
+          {time}
+        {/if}
       </div>
+
+      <!-- Date always stays in the same position -->
       <div class="text-[max(7vmin,7vh)] select-none -mt-3">
         {date}
       </div>
 
+      <!-- Timer with swapped display when active -->
       <div class="flex flex-col gap-2 z-10 mt-5">
-        <Timer id={1} />
+        <Timer
+          id={1}
+          displayOverride={timerActive ? time : null}
+          bind:this={timerComponent}
+          bind:active={timerActive}
+          bind:remaining={timerRemaining}
+          bind:formatTime={timerFormatTime}
+        />
       </div>
     </div>
   </div>

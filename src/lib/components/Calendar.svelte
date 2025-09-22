@@ -31,7 +31,7 @@
     currentDate = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth() - 1,
-      1,
+      1
     );
     updateCalendar();
   }
@@ -40,7 +40,7 @@
     currentDate = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth() + 1,
-      1,
+      1
     );
     updateCalendar();
   }
@@ -92,7 +92,7 @@
   >
     <button
       on:click={previousMonth}
-      class="text-white hover:text-gray-300 pointer-events-auto">&lt;</button
+      class="text-white/40 hover:text-gray-300 pointer-events-auto">&lt;</button
     >
     <button
       on:click={goToCurrentMonth}
@@ -102,7 +102,7 @@
     >
     <button
       on:click={nextMonth}
-      class="text-white hover:text-gray-300 pointer-events-auto">&gt;</button
+      class="text-white/40 hover:text-gray-300 pointer-events-auto">&gt;</button
     >
   </div>
   <div class="grid grid-cols-7 gap-1 flex-grow">

@@ -7,6 +7,7 @@
   } from "@tauri-apps/plugin-notification";
 
   export let id: number;
+  export let displayOverride: string | null = null; // Override display value when provided
   let duration = 30; // Default duration in minutes
   let remaining = duration * 60; // Initialize in seconds
   let active = false;
@@ -30,6 +31,25 @@
     { label: "60m", value: 60 },
     { label: "1h20m", value: 80 },
   ];
+
+  function formatTime(totalSeconds: number): string {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    if (hours > 0) {
+      return `${hours.toString().padStart(2, "0")}:${minutes
+        .toString()
+        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    } else {
+      return `${minutes.toString().padStart(2, "0")}:${seconds
+        .toString()
+        .padStart(2, "0")}`;
+    }
+  }
+
+  // Export timer state for parent component
+  export { active, remaining, formatTime };
 
   onMount(async () => {
     let permissionGranted = await isPermissionGranted();
@@ -146,22 +166,6 @@
     }
   }
 
-  function formatTime(totalSeconds: number): string {
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-
-    if (hours > 0) {
-      return `${hours.toString().padStart(2, "0")}:${minutes
-        .toString()
-        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-    } else {
-      return `${minutes.toString().padStart(2, "0")}:${seconds
-        .toString()
-        .padStart(2, "0")}`;
-    }
-  }
-
   let editingTimer = false;
 
   // Update remaining time when duration changes and timer is not active
@@ -244,7 +248,7 @@
       class="text-2xl mb-2"
       class:hidden={editingTimer}
     >
-      {formatTime(remaining)}
+      {displayOverride || formatTime(remaining)}
     </button>
   </div>
 
