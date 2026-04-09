@@ -5,10 +5,11 @@
     requestPermission,
     sendNotification,
   } from "@tauri-apps/plugin-notification";
+  import { settings } from "$lib/stores/settings";
 
   export let id: number;
   export let displayOverride: string | null = null; // Override display value when provided
-  let duration = 30; // Default duration in minutes
+  let duration = $settings.timer.defaultDurationMin; // Default duration in minutes
   let remaining = duration * 60; // Initialize in seconds
   let active = false;
   let isFlashing = false;
@@ -19,18 +20,10 @@
   let presetMenuElement: HTMLDivElement;
 
   // Preset timer values in minutes
-  const presetTimers = [
-    { label: "5m", value: 5 },
-    { label: "10m", value: 10 },
-    { label: "15m", value: 15 },
-    { label: "20m", value: 20 },
-    { label: "25m", value: 25 },
-    { label: "30m", value: 30 },
-    { label: "45m", value: 45 },
-    { label: "55m", value: 55 },
-    { label: "60m", value: 60 },
-    { label: "1h20m", value: 80 },
-  ];
+  $: presetTimers = $settings.timer.presets.map(v => ({
+    label: v >= 60 ? `${Math.floor(v/60)}h${v%60 ? v%60 + 'm' : ''}` : `${v}m`,
+    value: v
+  }));
 
   function formatTime(totalSeconds: number): string {
     const hours = Math.floor(totalSeconds / 3600);
@@ -85,12 +78,12 @@
   }
 
   async function startSound() {
-    const audio = new Audio("/sounds/ticking.mp3");
+    const audio = new Audio(`/sounds/${$settings.timer.startSound}`);
     audio.play();
   }
 
   async function finishSound() {
-    const audio = new Audio("/sounds/notification.mp3");
+    const audio = new Audio(`/sounds/${$settings.timer.finishSound}`);
     audio.play();
   }
 
