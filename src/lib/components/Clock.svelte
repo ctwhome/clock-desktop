@@ -51,7 +51,7 @@
     <!-- TIME AND TIMER -->
     <div class="flex flex-col items-center">
       <!-- Large display: Timer countdown when active, current time when inactive -->
-      <div class="text-[max(20vmin,35vh)] select-none">
+      <div class="text-[max(20vmin,35vh)] select-none" style="font-variant-numeric: tabular-nums;">
         {#if timerActive && timerFormatTime}
           {timerFormatTime(timerRemaining)}
         {:else}

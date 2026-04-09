@@ -247,6 +247,7 @@
       on:click={showInput}
       class="text-2xl mb-2"
       class:hidden={editingTimer}
+      style="font-variant-numeric: tabular-nums;"
     >
       {displayOverride || formatTime(remaining)}
     </button>
