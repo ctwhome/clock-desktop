@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import Calendar from "./Calendar.svelte";
   import Timer from "./Timer.svelte";
+  import { settings } from "$lib/stores/settings";
 
   let time: string;
   let date: string;
@@ -13,17 +14,26 @@
   let timerFormatTime: (seconds: number) => string;
 
   function updateTime(): void {
-    time = new Date().toLocaleTimeString("nl-NL", {
-      hour: "numeric",
-      minute: "numeric",
-    });
+    const opts: Intl.DateTimeFormatOptions = {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: !$settings.clock.format24h,
+    };
+    if ($settings.clock.showSeconds) {
+      opts.second = "2-digit";
+    }
+    time = new Date().toLocaleTimeString(
+      $settings.clock.format24h ? "nl-NL" : "en-US",
+      opts
+    );
   }
 
   function updateDate(): void {
-    date = new Date().toLocaleDateString("en-US", {
-      day: "numeric",
-      month: "long",
+    date = new Date().toLocaleDateString($settings.clock.dateLocale, {
+      weekday: "long",
       year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   }
 
@@ -33,6 +43,7 @@
 
     const interval = setInterval(() => {
       updateTime();
+      updateDate();
     }, 1000);
     return () => clearInterval(interval);
   });
