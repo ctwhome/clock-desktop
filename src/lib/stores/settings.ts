@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import { invoke } from '@tauri-apps/api/core';
+import { emit, listen } from '@tauri-apps/api/event';
 import type { AppSettings } from '../types';
 
 export const DEFAULT_SETTINGS: AppSettings = {
@@ -47,9 +48,16 @@ export async function loadSettings(): Promise<void> {
   } catch {
     settings.set(DEFAULT_SETTINGS);
   }
+
+  // Listen for settings changes from other windows
+  await listen<AppSettings>('settings-changed', (event) => {
+    settings.set(event.payload);
+  });
 }
 
 export async function saveSettings(updated: AppSettings): Promise<void> {
   settings.set(updated);
   await invoke('save_settings', { settings: updated });
+  // Notify all windows (including this one's siblings)
+  await emit('settings-changed', updated);
 }

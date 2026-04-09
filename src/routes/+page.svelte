@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Clock from "$lib/components/Clock.svelte";
   import Background from "$lib/components/Background.svelte";
   import WeatherOverlay from "$lib/components/WeatherOverlay.svelte";
@@ -13,10 +13,12 @@
 
 <div
   data-tauri-drag-region
-  class="h-screen w-screen flex items-center justify-center relative overflow-hidden"
+  class="h-screen w-screen bg-black bg-opacity-50 flex items-center justify-center relative overflow-hidden"
 >
   <!-- Layer 1: Background -->
-  <Background backgroundId={$settings.appearance.background} />
+  <div class="absolute inset-0 pointer-events-none">
+    <Background backgroundId={$settings.appearance.background} />
+  </div>
 
   <!-- Layer 2: Weather Overlay -->
   <WeatherOverlay
@@ -28,7 +30,7 @@
 
   <!-- Layer 3: Dark Overlay -->
   <div
-    class="absolute inset-0"
+    class="absolute inset-0 pointer-events-none"
     style="background-color: rgba(0, 0, 0, {$settings.appearance.overlayOpacity});"
   ></div>
 

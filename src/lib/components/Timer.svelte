@@ -6,6 +6,7 @@
     sendNotification,
   } from "@tauri-apps/plugin-notification";
   import { settings } from "$lib/stores/settings";
+  import type { LabelItem } from "$lib/types";
 
   export let id: number;
   export let displayOverride: string | null = null; // Override display value when provided
@@ -160,6 +161,16 @@
   }
 
   let editingTimer = false;
+  let showingLabels = false;
+  let selectedLabel: string | null = null;
+
+  function toggleLabels() {
+    showingLabels = !showingLabels;
+  }
+
+  function selectLabel(label: LabelItem) {
+    selectedLabel = selectedLabel === label.id ? null : label.id;
+  }
 
   // Update remaining time when duration changes and timer is not active
   function handleDurationChange() {
@@ -304,6 +315,41 @@
       </svg>
     </button>
   </div>
+
+  <!-- Label tag button -->
+  {#if active && $settings.labels.length > 0}
+    <div class="relative">
+      <button
+        on:click={toggleLabels}
+        class="p-2 rounded text-white/60 hover:text-white hover:bg-white/10 transition-colors text-xs"
+        aria-label="Tag activity"
+      >
+        {#if selectedLabel}
+          {$settings.labels.find(l => l.id === selectedLabel)?.emoji || '🏷'}
+        {:else}
+          🏷
+        {/if}
+      </button>
+
+      {#if showingLabels}
+        <div class="absolute bottom-full right-0 z-50 mb-2">
+          <div class="label-menu bg-black/20 rounded-lg shadow-xl border border-white/10 p-2 flex flex-wrap gap-1.5 justify-center w-max max-w-[250px]">
+            {#each $settings.labels as label (label.id)}
+              <button
+                class="px-2 py-1 rounded-full text-xs transition-all duration-200
+                  {selectedLabel === label.id
+                    ? 'bg-indigo-500/30 border border-indigo-500/50 text-white'
+                    : 'bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10'}"
+                on:click={() => selectLabel(label)}
+              >
+                {label.emoji} {label.name}
+              </button>
+            {/each}
+          </div>
+        </div>
+      {/if}
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -334,7 +380,8 @@
     animation: flash 1.5s ease-in-out;
   }
 
-  .preset-menu {
+  .preset-menu,
+  .label-menu {
     backdrop-filter: blur(8px);
     animation: fadeIn 0.2s ease-out;
     max-width: max-content;

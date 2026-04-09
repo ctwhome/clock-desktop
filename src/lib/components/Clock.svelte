@@ -2,7 +2,6 @@
   import { onMount } from "svelte";
   import Calendar from "./Calendar.svelte";
   import Timer from "./Timer.svelte";
-  import Labels from "./Labels.svelte";
   import { settings } from "$lib/stores/settings";
 
   let time: string;
@@ -88,8 +87,8 @@
         />
       </div>
 
-      <!-- Activity Labels -->
-      <Labels labels={$settings.labels} visible={timerActive} />
     </div>
   </div>
+
+
 </div>

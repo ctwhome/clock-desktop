@@ -20,4 +20,4 @@
     : `background-image: url('/backgrounds/${backgroundId}.jpg'); background-size: cover; background-position: center;`;
 </script>
 
-<div class="absolute inset-0" {style}></div>
+<div class="absolute inset-0 pointer-events-none" {style}></div>
