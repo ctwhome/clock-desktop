@@ -1,62 +1,44 @@
 <script lang="ts">
-  // import { Window } from "@tauri-apps/api/window";
-  // import { Webview } from "@tauri-apps/api/webview";
+  import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 
-  /*   async function openSettings() {
-    try {
-      // Create a new window with a unique label
-      const appWindow = new Window("settings");
-
-      // Create a new Webview for this window, either loading a local page or a remote URL
-      const webview = new Webview(appWindow, "settings-webview", {
-        url: "/settings", // Replace with your settings page URL
-        x: 100,
-        y: 100,
-        width: 400,
-        height: 300,
-      });
-
-      // Handle the creation and errors of the webview
-      webview.once("tauri://created", function () {
-        console.log("Webview successfully created");
-      });
-
-      webview.once("tauri://error", function (e) {
-        console.error("Error creating webview:", e);
-      });
-
-      // Optionally, you can emit or listen for events on this webview
-      // Emit an event to the backend (if necessary)
-      await webview.emit("settings-opened", { opened: true });
-
-      // Listen to an event from the backend (if necessary)
-      const unlisten = await webview.listen("settings-event", (e) => {
-        console.log("Event received from backend:", e);
-      });
-
-      // To unlisten from events when no longer needed
-      unlisten();
-    } catch (error) {
-      console.error("Failed to open settings window:", error);
+  async function openSettings() {
+    const existing = await WebviewWindow.getByLabel('settings');
+    if (existing) {
+      await existing.setFocus();
+      return;
     }
-  } */
+
+    new WebviewWindow('settings', {
+      url: '/settings',
+      title: 'Preferences',
+      width: 600,
+      height: 450,
+      resizable: false,
+      alwaysOnTop: false,
+      decorations: true,
+    });
+  }
 </script>
 
 <button
-  class="bg-white bg-opacity-10 text-white p-1.5 rounded-full transition-all duration-300 ease-in-out hover:bg-opacity-20
-  hover:scale-110 active:bg-opacity-30 active:scale-90 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
-  aria-label="Open Settings"
+  on:click={openSettings}
+  class="p-2 rounded-full hover:bg-white/10 active:bg-white/20 transition-colors duration-200"
+  aria-label="Settings"
 >
-  <!-- on:click={openSettings} -->
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="18"
-    height="18"
+    width="20"
+    height="20"
     viewBox="0 0 24 24"
-    class="fill-current"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
   >
+    <circle cx="12" cy="12" r="3"></circle>
     <path
-      d="M12 15.5A3.5 3.5 0 0 1 8.5 12A3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5a3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97c0-.33-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65c-.04-.24-.25-.42-.5-.42h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1c0 .33.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49-.01.61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.66Z"
-    />
+      d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+    ></path>
   </svg>
 </button>

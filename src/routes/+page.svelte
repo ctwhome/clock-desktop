@@ -1,6 +1,7 @@
 <script>
   import Clock from "$lib/components/Clock.svelte";
   import Background from "$lib/components/Background.svelte";
+  import Settings from "$lib/components/Settings.svelte";
   import { settings, loadSettings } from "$lib/stores/settings";
   import { onMount } from "svelte";
 
@@ -27,5 +28,10 @@
   <!-- Layer 4: UI -->
   <div class="relative z-10 pointer-events-none">
     <Clock />
+  </div>
+
+  <!-- Settings button -->
+  <div class="fixed top-2 right-2 z-20 pointer-events-auto text-white">
+    <Settings />
   </div>
 </div>
