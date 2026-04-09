@@ -1,6 +1,7 @@
 <script>
   import Clock from "$lib/components/Clock.svelte";
   import Background from "$lib/components/Background.svelte";
+  import WeatherOverlay from "$lib/components/WeatherOverlay.svelte";
   import Settings from "$lib/components/Settings.svelte";
   import { settings, loadSettings } from "$lib/stores/settings";
   import { onMount } from "svelte";
@@ -17,7 +18,13 @@
   <!-- Layer 1: Background -->
   <Background backgroundId={$settings.appearance.background} />
 
-  <!-- Layer 2: Weather Overlay (added in Task 6) -->
+  <!-- Layer 2: Weather Overlay -->
+  <WeatherOverlay
+    apiKey={$settings.weather.apiKey}
+    location={$settings.weather.location}
+    updateFrequencyMin={$settings.weather.updateFrequencyMin}
+    enabled={$settings.weather.enabled}
+  />
 
   <!-- Layer 3: Dark Overlay -->
   <div
