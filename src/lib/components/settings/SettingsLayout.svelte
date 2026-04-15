@@ -6,6 +6,7 @@
     { id: 'appearance', label: '🎨 Appearance' },
     { id: 'labels', label: '🏷 Labels' },
     { id: 'behavior', label: '⚡ Behavior' },
+    { id: 'eyeCare', label: '👁 Eye Care' },
   ];
 
   let activeSection = 'weather';

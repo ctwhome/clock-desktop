@@ -6,6 +6,7 @@
   import AppearanceSettings from "$lib/components/settings/AppearanceSettings.svelte";
   import LabelsSettings from "$lib/components/settings/LabelsSettings.svelte";
   import BehaviorSettings from "$lib/components/settings/BehaviorSettings.svelte";
+  import EyeCareSettings from "$lib/components/settings/EyeCareSettings.svelte";
   import { settings, loadSettings, saveSettings } from "$lib/stores/settings";
   import { onMount } from "svelte";
 
@@ -27,5 +28,7 @@
     <LabelsSettings bind:settings={$settings} on:save={() => saveSettings($settings)} />
   {:else if activeSection === 'behavior'}
     <BehaviorSettings bind:settings={$settings} on:save={() => saveSettings($settings)} />
+  {:else if activeSection === 'eyeCare'}
+    <EyeCareSettings bind:settings={$settings} on:save={() => saveSettings($settings)} />
   {/if}
 </SettingsLayout>
