@@ -36,6 +36,13 @@ export interface BehaviorSettings {
   visibleOnAllDesktops: boolean;
 }
 
+export interface EyeCareSettings {
+  enabled: boolean;
+  intervalMinutes: number;
+  restDurationSeconds: number;
+  playSound: boolean;
+}
+
 export interface AppSettings {
   weather: WeatherSettings;
   clock: ClockSettings;
@@ -43,6 +50,7 @@ export interface AppSettings {
   appearance: AppearanceSettings;
   labels: LabelItem[];
   behavior: BehaviorSettings;
+  eyeCare: EyeCareSettings;
 }
 
 export interface WeatherData {

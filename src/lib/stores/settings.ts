@@ -37,6 +37,12 @@ export const DEFAULT_SETTINGS: AppSettings = {
     alwaysOnTop: true,
     visibleOnAllDesktops: true,
   },
+  eyeCare: {
+    enabled: false,
+    intervalMinutes: 25,
+    restDurationSeconds: 20,
+    playSound: true,
+  },
 };
 
 export const settings = writable<AppSettings>(DEFAULT_SETTINGS);

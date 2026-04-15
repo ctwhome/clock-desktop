@@ -52,6 +52,26 @@ pub struct BehaviorSettings {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct EyeCareSettings {
+    pub enabled: bool,
+    pub interval_minutes: u32,
+    pub rest_duration_seconds: u32,
+    pub play_sound: bool,
+}
+
+impl Default for EyeCareSettings {
+    fn default() -> Self {
+        Self {
+            enabled: false,
+            interval_minutes: 25,
+            rest_duration_seconds: 20,
+            play_sound: true,
+        }
+    }
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct AppSettings {
     pub weather: WeatherSettings,
     pub clock: ClockSettings,
@@ -59,6 +79,8 @@ pub struct AppSettings {
     pub appearance: AppearanceSettings,
     pub labels: Vec<LabelItem>,
     pub behavior: BehaviorSettings,
+    #[serde(default)]
+    pub eye_care: EyeCareSettings,
 }
 
 fn settings_path(app: &tauri::AppHandle) -> std::path::PathBuf {
