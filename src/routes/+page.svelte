@@ -3,6 +3,7 @@
   import Background from "$lib/components/Background.svelte";
   import WeatherOverlay from "$lib/components/WeatherOverlay.svelte";
   import Settings from "$lib/components/Settings.svelte";
+  import EyeCare from "$lib/components/EyeCare.svelte";
   import { settings, loadSettings } from "$lib/stores/settings";
   import { onMount } from "svelte";
 
@@ -43,4 +44,7 @@
   <div class="fixed top-2 right-2 z-20 pointer-events-auto text-white">
     <Settings />
   </div>
+
+  <!-- Eye Care Overlay -->
+  <EyeCare />
 </div>
