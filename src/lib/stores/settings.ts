@@ -9,7 +9,6 @@ export const DEFAULT_SETTINGS: AppSettings = {
     locationName: null,
     updateFrequencyMin: 30,
     enabled: true,
-    apiKey: null,
   },
   clock: {
     format24h: true,

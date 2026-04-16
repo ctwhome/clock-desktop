@@ -4,7 +4,7 @@ $ vite dev
 
   VITE v5.4.7  ready in 525 ms
 
-  ➜  Local:   http://localhost:1420/
+  ➜  Local:   http://localhost:1220/
   ➜  Network: use --host to expose
     Info Watching /Users/ctw/Sites/github/clock-desktop/src-tauri for changes...
 [1m[33mwarning[0m[1m:[0m clock-desktop@0.0.0: cargo:rustc-check-cfg requires -Zcheck-cfg flag

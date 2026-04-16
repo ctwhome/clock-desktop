@@ -4,7 +4,7 @@
   "identifier": "com.clock-desktop.app",
   "build": {
     "beforeDevCommand": "bun run dev",
-    "devUrl": "http://localhost:1420",
+    "devUrl": "http://localhost:1220",
     "beforeBuildCommand": "bun run build",
     "frontendDist": "../build"
   },

@@ -62,7 +62,7 @@
     <!-- TIME AND TIMER -->
     <div class="flex flex-col items-center">
       <!-- Large display: Timer countdown when active, current time when inactive -->
-      <div class="text-[max(20vmin,35vh)] select-none" style="font-variant-numeric: tabular-nums;">
+      <div class="text-[100px] select-none" style="font-variant-numeric: tabular-nums;">
         {#if timerActive && timerFormatTime}
           {timerFormatTime(timerRemaining)}
         {:else}
@@ -71,7 +71,7 @@
       </div>
 
       <!-- Date always stays in the same position -->
-      <div class="text-[max(7vmin,7vh)] select-none -mt-3">
+      <div class="text-[22px] select-none -mt-3">
         {date}
       </div>
 

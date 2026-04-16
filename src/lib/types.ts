@@ -3,7 +3,6 @@ export interface WeatherSettings {
   locationName: string | null;
   updateFrequencyMin: number;
   enabled: boolean;
-  apiKey: string | null;
 }
 
 export interface ClockSettings {

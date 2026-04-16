@@ -9,49 +9,63 @@
   import Fog from "./weather/Fog.svelte";
   import Night from "./weather/Night.svelte";
 
-  export let apiKey: string | null = null;
   export let location: string = "auto";
   export let updateFrequencyMin: number = 30;
   export let enabled: boolean = true;
 
   let weather: WeatherData | null = null;
   let animate = true;
+  let mounted = false;
   let settleTimeout: ReturnType<typeof setTimeout>;
   let fetchInterval: ReturnType<typeof setInterval>;
 
-  function mapConditionCode(code: number): WeatherData["condition"] {
-    if (code >= 200 && code < 300) return "thunderstorm";
-    if (code >= 300 && code < 600) return "rain";
-    if (code >= 600 && code < 700) return "snow";
-    if (code >= 700 && code < 800) return "fog";
-    if (code === 800) return "clear";
+  // WMO Weather interpretation codes → condition
+  function mapWmoCode(code: number): WeatherData["condition"] {
+    if (code <= 1) return "clear";
+    if (code <= 3) return "cloudy";
+    if (code === 45 || code === 48) return "fog";
+    if (code >= 51 && code <= 67) return "rain";
+    if (code >= 71 && code <= 77) return "snow";
+    if (code >= 80 && code <= 82) return "rain";
+    if (code >= 85 && code <= 86) return "snow";
+    if (code >= 95) return "thunderstorm";
     return "cloudy";
   }
 
+  async function getCoordinates(): Promise<{ latitude: number; longitude: number }> {
+    if (location !== "auto") {
+      const res = await fetch(
+        `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(location)}&count=1`
+      );
+      const data = await res.json();
+      if (!data.results?.length) throw new Error(`Location not found: ${location}`);
+      return { latitude: data.results[0].latitude, longitude: data.results[0].longitude };
+    }
+    const res = await fetch("https://ipapi.co/json/");
+    const geo = await res.json();
+    return { latitude: geo.latitude, longitude: geo.longitude };
+  }
+
   async function fetchWeather() {
-    if (!apiKey) return;
-
     try {
-      let url: string;
-      if (location === "auto") {
-        const geoRes = await fetch("https://ipapi.co/json/");
-        const geo = await geoRes.json();
-        url = `https://api.openweathermap.org/data/2.5/weather?lat=${geo.latitude}&lon=${geo.longitude}&appid=${apiKey}&units=metric`;
-      } else {
-        url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&appid=${apiKey}&units=metric`;
-      }
+      const { latitude, longitude } = await getCoordinates();
 
-      const res = await fetch(url);
+      const res = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code&daily=sunrise,sunset&timezone=auto`
+      );
       const data = await res.json();
 
+      const sunriseUnix = Math.floor(new Date(data.daily.sunrise[0]).getTime() / 1000);
+      const sunsetUnix = Math.floor(new Date(data.daily.sunset[0]).getTime() / 1000);
       const now = Math.floor(Date.now() / 1000);
+
       weather = {
-        conditionCode: data.weather[0].id,
-        condition: mapConditionCode(data.weather[0].id),
-        temperature: data.main.temp,
-        sunrise: data.sys.sunrise,
-        sunset: data.sys.sunset,
-        isNight: now < data.sys.sunrise || now > data.sys.sunset,
+        conditionCode: data.current.weather_code,
+        condition: mapWmoCode(data.current.weather_code),
+        temperature: data.current.temperature_2m,
+        sunrise: sunriseUnix,
+        sunset: sunsetUnix,
+        isNight: now < sunriseUnix || now > sunsetUnix,
       };
 
       animate = true;
@@ -64,8 +78,16 @@
     }
   }
 
-  onMount(() => {
-    if (!enabled || !apiKey) return;
+  function startPolling() {
+    if (!mounted) return;
+
+    clearInterval(fetchInterval);
+    clearTimeout(settleTimeout);
+
+    if (!enabled) {
+      weather = null;
+      return;
+    }
 
     settleTimeout = setTimeout(() => {
       animate = false;
@@ -73,6 +95,14 @@
 
     fetchWeather();
     fetchInterval = setInterval(fetchWeather, updateFrequencyMin * 60 * 1000);
+  }
+
+  // Re-run when enabled, location, or frequency changes
+  $: enabled, location, updateFrequencyMin, startPolling();
+
+  onMount(() => {
+    mounted = true;
+    startPolling();
   });
 
   onDestroy(() => {

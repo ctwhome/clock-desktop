@@ -9,7 +9,6 @@ pub struct WeatherSettings {
     pub location_name: Option<String>,
     pub update_frequency_min: u32,
     pub enabled: bool,
-    pub api_key: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]

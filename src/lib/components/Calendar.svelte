@@ -85,7 +85,7 @@
 </script>
 
 <div
-  class="calendar text-white bg-black bg-opacity-50 p-2 rounded flex flex-col text-xs h-full"
+  class="calendar text-white bg-black bg-opacity-50 p-2 rounded flex flex-col text-xs h-full w-[160px]"
 >
   <div
     class="month-year mb-1 text-center font-bold flex justify-between items-center text-sm sm:text-base"
