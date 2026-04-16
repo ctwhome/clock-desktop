@@ -14,10 +14,13 @@
     'forest', 'ocean', 'mountain', 'city-night', 'desert', 'space',
   ];
 
+  $: isNone = backgroundId === 'none';
   $: isGradient = backgroundId.startsWith('gradient-');
-  $: style = isGradient
-    ? `background: ${gradients[backgroundId] || gradients['gradient-deep-sea']};`
-    : `background-image: url('/backgrounds/${backgroundId}.jpg'); background-size: cover; background-position: center;`;
+  $: style = isNone
+    ? 'background: transparent;'
+    : isGradient
+      ? `background: ${gradients[backgroundId] || gradients['gradient-deep-sea']};`
+      : `background-image: url('/backgrounds/${backgroundId}.jpg'); background-size: cover; background-position: center;`;
 </script>
 
 <div class="absolute inset-0 pointer-events-none" {style}></div>

@@ -7,6 +7,10 @@
   } from "@tauri-apps/plugin-notification";
   import { settings } from "$lib/stores/settings";
   import type { LabelItem } from "$lib/types";
+  import IconPlay from "~icons/lucide/play";
+  import IconPause from "~icons/lucide/pause";
+  import IconRotateCcw from "~icons/lucide/rotate-ccw";
+  import IconTag from "~icons/lucide/tag";
 
   export let id: number;
   export let displayOverride: string | null = null; // Override display value when provided
@@ -264,34 +268,9 @@
       aria-label={active ? "Pause" : "Play"}
     >
       {#if active}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <rect x="6" y="4" width="4" height="16"></rect>
-          <rect x="14" y="4" width="4" height="16"></rect>
-        </svg>
+        <IconPause width="20" height="20" />
       {:else}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <polygon points="5 3 19 12 5 21 5 3"></polygon>
-        </svg>
+        <IconPlay width="20" height="20" />
       {/if}
     </button>
     <button
@@ -299,20 +278,7 @@
       class="hover:bg-red-700 text-white font-bold p-2 rounded"
       aria-label="Reset"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path d="M3 2v6h6"></path>
-        <path d="M3 13a9 9 0 1 0 3-7.7L3 8"></path>
-      </svg>
+      <IconRotateCcw width="20" height="20" />
     </button>
   </div>
 
@@ -325,9 +291,12 @@
         aria-label="Tag activity"
       >
         {#if selectedLabel}
-          {$settings.labels.find(l => l.id === selectedLabel)?.emoji || '🏷'}
+          {$settings.labels.find(l => l.id === selectedLabel)?.emoji || ''}
+          {#if !$settings.labels.find(l => l.id === selectedLabel)?.emoji}
+            <IconTag width="14" height="14" />
+          {/if}
         {:else}
-          🏷
+          <IconTag width="14" height="14" />
         {/if}
       </button>
 

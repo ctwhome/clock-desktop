@@ -85,7 +85,8 @@
 </script>
 
 <div
-  class="calendar text-white bg-black bg-opacity-50 p-2 rounded flex flex-col text-xs h-full w-[160px]"
+  class="calendar text-white bg-black bg-opacity-50 p-2 rounded flex flex-col h-full w-[196px]"
+  style="text-shadow: 1px 1px 2px rgba(0,0,0,0.7);"
 >
   <div
     class="month-year mb-1 text-center font-bold flex justify-between items-center text-sm sm:text-base"
@@ -105,28 +106,24 @@
       class="text-white/40 hover:text-gray-300 pointer-events-auto">&gt;</button
     >
   </div>
-  <div class="grid grid-cols-7 gap-1 flex-grow">
+  <div class="grid grid-cols-7 flex-grow">
     {#each ["M", "T", "W", "T", "F", "S", "S"] as day, index}
       <div
-        class="day-header flex items-center justify-center text-xs sm:text-sm {index >
-        4
-          ? 'opacity-60'
-          : ''}"
+        class="flex items-center justify-center w-[26px] h-[20px] text-[12px] font-semibold {index > 4 ? 'opacity-60' : ''}"
       >
         {day}
       </div>
     {/each}
     {#each Array(firstDayOffset) as _}
-      <div class="aspect-square"></div>
+      <div class="w-[26px] h-[20px]"></div>
     {/each}
     {#each daysInMonth as day}
       <div
-        class="day aspect-square flex items-center justify-center text-xs sm:text-sm
-        {isWeekend(currentYear, currentDate.getMonth(), day) ? '' : ''}
+        class="flex items-center justify-center w-[26px] h-[20px] text-[12px] font-semibold
         {day === new Date().getDate() &&
         currentDate.getMonth() === new Date().getMonth() &&
         currentDate.getFullYear() === new Date().getFullYear()
-          ? 'bg-yellow-600 rounded '
+          ? 'bg-yellow-600 rounded'
           : ''}"
       >
         {day}

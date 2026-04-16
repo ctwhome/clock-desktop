@@ -12,6 +12,7 @@
   export let location: string = "auto";
   export let updateFrequencyMin: number = 30;
   export let enabled: boolean = true;
+  export let temperature: number | null = null;
 
   let weather: WeatherData | null = null;
   let animate = true;
@@ -67,6 +68,7 @@
         sunset: sunsetUnix,
         isNight: now < sunriseUnix || now > sunsetUnix,
       };
+      temperature = weather.temperature;
 
       animate = true;
       clearTimeout(settleTimeout);

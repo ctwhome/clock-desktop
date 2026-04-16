@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onDestroy } from "svelte";
   import { settings } from "$lib/stores/settings";
+  import IconEye from "~icons/lucide/eye";
 
   let showing = false;
   let restRemaining = 0;
@@ -112,7 +113,7 @@
   <div class="eye-care-overlay" on:click={dismiss}>
     <div class="eye-care-glow"></div>
     <div class="eye-care-content">
-      <div class="eye-care-icon">👁️‍🗨️</div>
+      <div class="eye-care-icon"><IconEye width="48" height="48" /></div>
       <div class="eye-care-title">Rest your eyes</div>
       <div class="eye-care-countdown">{formatSeconds(restRemaining)}</div>
       <div class="eye-care-subtitle">Look at something 20ft away</div>

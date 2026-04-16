@@ -28,7 +28,8 @@
   ];
 
   function selectBackground(id: string) {
-    settings.appearance.background = id;
+    // Toggle off if already selected (back to no background)
+    settings.appearance.background = settings.appearance.background === id ? 'none' : id;
     save();
   }
 
@@ -42,7 +43,15 @@
 
 <div class="space-y-6">
   <div>
-    <label class="block text-xs uppercase text-gray-400 mb-2">Gradients</label>
+    <div class="flex items-center justify-between mb-2">
+      <label class="block text-xs uppercase text-gray-400">Gradients</label>
+      {#if settings.appearance.background !== 'none'}
+        <button
+          on:click={() => selectBackground(settings.appearance.background)}
+          class="text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+        >Clear</button>
+      {/if}
+    </div>
     <div class="grid grid-cols-3 gap-3">
       {#each gradients as gradient}
         <button
@@ -74,20 +83,22 @@
     </div>
   </div>
 
-  <div>
-    <label class="block text-xs uppercase text-gray-400 mb-2">Overlay Opacity</label>
-    <input
-      type="range"
-      min="0"
-      max="1"
-      step="0.05"
-      value={settings.appearance.overlayOpacity}
-      on:input={updateOpacity}
-      class="w-full accent-indigo-500"
-    />
-    <div class="flex justify-between text-xs text-gray-400 mt-1">
-      <span>Transparent</span>
-      <span>Dark</span>
+  {#if settings.appearance.background !== 'none'}
+    <div>
+      <label class="block text-xs uppercase text-gray-400 mb-2">Background Opacity</label>
+      <input
+        type="range"
+        min="0"
+        max="1"
+        step="0.05"
+        value={settings.appearance.overlayOpacity}
+        on:input={updateOpacity}
+        class="w-full accent-indigo-500"
+      />
+      <div class="flex justify-between text-xs text-gray-400 mt-1">
+        <span>None</span>
+        <span>Opaque</span>
+      </div>
     </div>
-  </div>
+  {/if}
 </div>

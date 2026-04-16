@@ -16,6 +16,8 @@
     "core:menu:default",
     "core:tray:default",
     "shell:allow-open",
-    "process:default"
+    "process:default",
+    "core:window:allow-set-effects",
+    "notification:default"
   ]
 }

@@ -12,6 +12,7 @@
   const DESIGN_H = 260;
 
   let scale = 1;
+  let temperature: number | null = null;
 
   function recalcScale() {
     scale = Math.min(window.innerWidth / DESIGN_W, window.innerHeight / DESIGN_H);
@@ -27,10 +28,10 @@
 
 <div
   data-tauri-drag-region
-  class="h-screen w-screen bg-black bg-opacity-50 relative overflow-hidden"
+  class="h-screen w-screen relative overflow-hidden {$settings.appearance.background !== 'none' ? 'bg-black/10' : 'bg-black/50'}"
 >
   <!-- Layer 1: Background -->
-  <div class="absolute inset-0 pointer-events-none">
+  <div class="absolute inset-0 pointer-events-none" style="opacity: {$settings.appearance.background !== 'none' ? $settings.appearance.overlayOpacity : 0};">
     <Background backgroundId={$settings.appearance.background} />
   </div>
 
@@ -39,23 +40,23 @@
     location={$settings.weather.location}
     updateFrequencyMin={$settings.weather.updateFrequencyMin}
     enabled={$settings.weather.enabled}
+    bind:temperature
   />
-
-  <!-- Layer 3: Dark Overlay -->
-  <div
-    class="absolute inset-0 pointer-events-none"
-    style="background-color: rgba(0, 0, 0, {$settings.appearance.overlayOpacity});"
-  ></div>
 
   <!-- Layer 4: Scaled UI -->
   <div
+    data-tauri-drag-region
     class="absolute inset-0 flex items-center justify-center"
-    style="transform: scale({scale}); transform-origin: center center;"
   >
-    <div class="relative z-10 pointer-events-none" style="width: {DESIGN_W}px; height: {DESIGN_H}px;">
+    <div class="relative z-10 pointer-events-none" style="width: {DESIGN_W}px; height: {DESIGN_H}px; zoom: {scale};">
       <Clock />
-      <!-- Settings button (inside scaled container) -->
-      <div class="absolute top-1 right-1 z-20 pointer-events-auto text-white">
+      <!-- Temperature & Settings (inside scaled container) -->
+      <div class="absolute top-1 right-1 z-20 pointer-events-auto text-white flex items-center gap-1">
+        {#if temperature !== null}
+          <span class="text-base font-bold" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.6);">
+            {Math.round(temperature)}°C
+          </span>
+        {/if}
         <Settings />
       </div>
     </div>

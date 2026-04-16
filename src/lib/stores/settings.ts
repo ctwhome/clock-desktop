@@ -22,7 +22,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
     finishSound: 'notification.mp3',
   },
   appearance: {
-    background: 'gradient-deep-sea',
+    background: 'none',
     overlayOpacity: 0.5,
   },
   labels: [
